@@ -8,11 +8,11 @@ export default function Home() {
   return (
     <main className="h-screen">
       <h1 className="text-xl">My Cool React Site</h1>
-      <p>Hello World!</p>
+      <p>Shopping List</p>
       <h2>Application Links</h2>
       <ul>
         <li><Link className={linkStyles} href="./week2/">Week 2</Link></li>
-        <li><Link className={linkStyles} href="./week3/">Week 3</Link></li>
+        <li><Link className={linkStyles} href="./week-3/page.js">Week 3</Link></li>
       </ul>
     </main>
   );
