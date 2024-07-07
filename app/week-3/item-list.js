@@ -68,7 +68,9 @@ const ItemList = () => {
   return (
     <ul className="space-y-4">
       {items.map((item, index) => (
-        <Item key={index} name={item.name} quantity={item.quantity} category={item.category} />
+        <li key={index}>
+          <Item name={item.name} quantity={item.quantity} category={item.category} />
+        </li>
       ))}
     </ul>
   );
