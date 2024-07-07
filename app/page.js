@@ -1,11 +1,19 @@
 import Link from "next/link";
 
+
 export default function Home() {
+
+ const linkStyles = "underline text-cyan-600 hover:text-cyan-300";
+
   return (
-    <main>
-      <h1>CPRG 306: Web Development 2 - Assignments</h1>
-      <Link href="/week-2/page">Week 2</Link> <br></br>
-      <Link href="app\week-3\page.js">Week 3</Link>
+    <main className="h-screen">
+      <h1 className="text-xl">My Cool React Site</h1>
+      <p>Hello World!</p>
+      <h2>Application Links</h2>
+      <ul>
+        <li><Link className={linkStyles} href="./week2/">Week 2</Link></li>
+        <li><Link className={linkStyles} href="./week3/">Week 3</Link></li>
+      </ul>
     </main>
   );
 }
