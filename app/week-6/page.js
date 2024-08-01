@@ -1,40 +1,24 @@
-"use client"
+"use client";
 
-import DogForm from './dog-form';
-import DogList from './dog-list';
-import DogData from './dogs.json';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import NewItem from './new-item';
+import ItemList from './item-list';
+import itemsData from './items.json';
 
-export default function DogPage() {
+const Page = () => {
+  const [items, setItems] = useState(itemsData);
 
-    const [dogList, setDogList] = useState(
-        DogData.map( (dog) => ({...dog}) )
-    );
+  const handleAddItem = (newItem) => {
+    setItems([...items, newItem]);
+  };
 
-    const handleCreateDog = (newDog) => {
-        //dogList.push(newDog); //don't do this , we cannot mutate state variables Directly
-        setDogList ( [...dogList, newDog] );
-    }
+  return (
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Shopping List</h1>
+      <NewItem onAddItem={handleAddItem} />
+      <ItemList items={items} />
+    </main>
+  );
+};
 
-    const [isDogFormOpen, setDogFormOpen] = useState ( false);
-    const openDogForm = () => setDogFormOpen (true);
-    const closeDogForm = () => setDogFormOpen (false);
-
-    return (
-        <main>
-            {
-                isDogFormOpen && (
-                    <DogForm closeFormFunc={closeDogForm} onCreateDog /> 
-                )
-               
-            }
-            
-            <h1 className='text-3xl font-bold text-center'Dogs for Adoption></h1>
-               <DogList listOfDogs={dogList}/>
-               <div>
-                <button onClick= {openDogForm}  className="py-2 px-4 rounded-sm bg-orange-300 hover:bg-orange-100 text-amber-800">Open Dog Form</button>
-               </div>
-               
-        </main>
-    );
-}
+export default Page;
