@@ -1,76 +1,39 @@
 "use client";
+import { useEffect, useState } from "react";
 
-import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+const MealIdeas = ({ ingredient }) => {
+  const [meals, setMeals] = useState([]);
 
-const NewItem = ({ onAddItem }) => {
-  const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [category, setCategory] = useState("produce");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newItem = {
-      id: uuidv4(),
-      name,
-      quantity,
-      category
-    };
-    onAddItem(newItem);
-    setName("");
-    setQuantity(1);
-    setCategory("produce");
+  const fetchMealIdeas = async (ingredient) => {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`);
+    const data = await response.json();
+    return data.meals;
   };
 
+  const loadMealIdeas = async () => {
+    if (ingredient) {
+      const meals = await fetchMealIdeas(ingredient);
+      setMeals(meals);
+    }
+  };
+
+  useEffect(() => {
+    loadMealIdeas();
+  }, [ingredient]);
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block">Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="border rounded p-2 w-full"
-        />
-      </div>
-      <div>
-        <label className="block">Quantity:</label>
-        <input
-          type="number"
-          value={quantity}
-          min="1"
-          max="99"
-          onChange={(e) => setQuantity(Number(e.target.value))}
-          required
-          className="border rounded p-2 w-full"
-        />
-      </div>
-      <div>
-        <label className="block">Category:</label>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="border rounded p-2 w-full"
-        >
-          <option value="produce">Produce</option>
-          <option value="dairy">Dairy</option>
-          <option value="bakery">Bakery</option>
-          <option value="meat">Meat</option>
-          <option value="frozen">Frozen Foods</option>
-          <option value="canned">Canned Goods</option>
-          <option value="dry">Dry Goods</option>
-          <option value="beverages">Beverages</option>
-          <option value="snacks">Snacks</option>
-          <option value="household">Household</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-        Add Item
-      </button>
-    </form>
+    <div>
+      <h2>Meal Ideas</h2>
+      <ul>
+        {meals?.map((meal) => (
+          <li key={meal.idMeal}>
+            <img src={meal.strMealThumb} alt={meal.strMeal} style={{ width: "50px", height: "50px" }} />
+            {meal.strMeal}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
-export default NewItem;
+export default MealIdeas;
